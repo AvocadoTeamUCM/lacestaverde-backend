@@ -1,5 +1,6 @@
 FROM node:16
-WORKDIR /Cesta-verde-server/app.js
+
+WORKDIR /home/node/app
 
 COPY package*.json ./
 
@@ -8,4 +9,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
-CMD ["node", "serve.js"]
+
+CMD ["node", "app.js"]
