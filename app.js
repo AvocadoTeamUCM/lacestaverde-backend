@@ -1,7 +1,10 @@
 'use strict';
 const express = require('express');
-const config = require("./config/config");
+const config = require("./src/config/config");
+const db = require("./src/database/db");
 
+db(config.mongodb.dbUrl);
+ 
 const app = express();
 
 app.get('/',(req, res) => {

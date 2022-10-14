@@ -1,13 +1,14 @@
-FROM node:16
+FROM node:16.17.0
 
-WORKDIR /home/node/app
+WORKDIR /user/src/app
 
 COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY --chown=node:node . .
+#RUN npm run build
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["node", "app.js"]
