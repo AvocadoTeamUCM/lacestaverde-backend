@@ -1,9 +1,13 @@
+require('dotenv').config() 
 const config = {
-    port: process.env.PORT || 3000,
-    host: process.env.HOST || 'http://localhost',
 
-    mongodb: {
-        dbUrl: process.env.DB_URL || 'mongodb://localhost/practices'
+    appConfig: {
+        port: process.env.APP_PORT,
+        host: process.env.APP_HOST
+    },
+
+    dbConfig: {
+        dbUrl: process.env.DB_URL
     }
 }
 
