@@ -1,4 +1,4 @@
-FROM node:16.17.0
+FROM node:16.17.0-alpine3.16
 
 WORKDIR /user/src/app
 
@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["nodemon", "src/bin/www"]
+CMD ["node", "src/bin/www"]

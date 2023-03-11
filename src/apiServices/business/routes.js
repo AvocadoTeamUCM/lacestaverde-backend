@@ -6,13 +6,15 @@ const router = express.Router();
 
 router.postAsync('/',
     check("name", "The name is required").notEmpty(),
-    check("email", "The email is required").isEmail(),
+    check("description", "The name is required").notEmpty(),
+    check("address", "The name is required").notEmpty(),
+    check("userId", "The name is required").notEmpty(),
     (req, res)=> {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
-            controller.createUser(req.body)
-                .then((user)=> {
-                    res.status(201).send('The user has been created successfully');
+            controller.createBusiness(req.body)
+                .then((business)=> {
+                    res.status(201).send('The business has been created successfully');
                 })
                 .catch((err)=> {
                     res.status(500).send(err);
@@ -24,19 +26,19 @@ router.postAsync('/',
 );
 
 router.getAsync('/:id', (req, res)=> {
-    const userId = req.params.id;
-    controller.getUserById(userId)
-        .then((user) => {
-            res.status(200).json(user);
+    const businessId = req.params.id;
+    controller.getBusinessById(businessId)
+        .then((business) => {
+            res.status(200).json(business);
         }).catch((err) => {
             res.status(500).send('Internal Error');
         })
 });
 
 router.getAsync('/', (req, res)=> {
-    controller.getUsers()
-    .then((users) =>{
-        res.status(200).json(users);
+    controller.getBusiness()
+    .then((business) =>{
+        res.status(200).json(business);
     }).catch((err)=>{
         res.status(500).send('Internal Error')
     })
