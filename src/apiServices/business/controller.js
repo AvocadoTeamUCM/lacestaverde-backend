@@ -16,27 +16,27 @@ module.exports = {
     }, 
 
     async getBusinessById(businessId) {
-        const businessDao = await dao.getBusinessById(businessId);
-        const businessDto = dto.multiple(businessDao);
+        // const businessDao = await dao.getBusinessById(businessId);
+        // const businessDto = dto.multiple(businessDao);
 
-        return businessDto;
+        // return businessDto;
 
-        // return new Promise((resolve, reject) => {
-        //     if(businessId == '' || businessId == null) {
-        //         reject('Invalid userId');
-        //         return false
-        //     }
-        //     resolve(dao.getBusinessById(businessId));
-        // })
+        return new Promise((resolve, reject) => {
+            if(businessId == '' || businessId == null) {
+                reject('Invalid userId');
+                return false
+            }
+            resolve(dao.getBusinessById(businessId));
+        })
     },
 
     async getBusiness(){
-        const businessDao = await dao.getBusiness();
-        const businessDto = dto.multiple(businessDao);
+        // const businessDao = await dao.getBusiness();
+        // const businessDto = dto.multiple(businessDao);
 
-        return businessDto;
-        // return new Promise((resolve, reject) => {
-        //     resolve(dao.getBusiness());
-        // })
+        // return businessDto;
+        return new Promise((resolve, reject) => {
+            resolve(dao.getBusiness());
+        })
     }
 }

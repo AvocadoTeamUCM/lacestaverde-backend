@@ -12,7 +12,7 @@ router.postAsync('/',
         if(errors.isEmpty()) {
             controller.createUser(req.body)
                 .then((user)=> {
-                    res.status(201).send('The user has been created successfully');
+                    res.status(201).send(user);
                 })
                 .catch((err)=> {
                     res.status(500).send(err);

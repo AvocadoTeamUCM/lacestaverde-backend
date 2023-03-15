@@ -8,6 +8,8 @@ module.exports = {
             const productDao = {
                 name: body.name,
                 price: body.price,
+                coin: body.coin,
+                unit: body.unit,
                 categoryId: body.categoryId,
                 businessId: body.businessId,
             }

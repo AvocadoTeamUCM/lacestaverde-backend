@@ -14,7 +14,6 @@ module.exports = {
         if(data.password) {
             authData.password = await bcrypt.hash(data.password, 5)
         }
-
         return dao.insertAuth(authData);
     }
 }

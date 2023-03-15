@@ -1,19 +1,46 @@
 const Model = require('./model');
-const auth = require('./../auth/router');
+const ModelAuth = require('./../auth/model')
+const auth = require('./../auth/controller');
+
+const {USER_CREATED, USERNAME_EXISTS, USER_EXISTS} = require('./../../constants/Constants')
 
 module.exports = {
     async createUser(userDao){
-        const { email } = userDao
-        existUser = await Model.findOne({email: email}, {_id: true});
-        if(!existUser){
-            const user = new Model(userDao);
-            user.save();
+        const existsEmail = await this.existsUserEmail(userDao.email);
+        const existUser = await this.existsUserName(userDao.username);
+
+        if(existsEmail) {
+            return USER_EXISTS
+        } else {
+            if(existUser) {
+                return USERNAME_EXISTS
+            }else {
+                const newUser = new Model(userDao);
+                const newUserId = newUser._id.toString()
+                await newUser.save();
+                const authUser = {
+                    userId: newUserId,
+                    username: userDao.username,
+                    password: userDao.password
+                }
+                auth.insertAuth(authUser)
+                return USER_CREATED
+            }
         }
+        
     },
 
     async getUser(userId) {
         const user = await Model.find({ _id: userId });
         return user;
+    },
+
+    async existsUserEmail(email) {
+        return useremail = await Model.findOne({ email: email},{email: true}) ? true : false;
+    },
+
+    async existsUserName(nameUser) {
+        return userName = await  ModelAuth.findOne({username: nameUser}, {_id: true}) ? true : false;
     },
 
     async getUsers() {

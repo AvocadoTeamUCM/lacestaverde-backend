@@ -10,7 +10,7 @@ module.exports = {
 
         // const business = await Model.find({
         //     _id: businessId
-        // }).
+        // })
         // return business;
 
         return new Promise((resolve, reject) => {

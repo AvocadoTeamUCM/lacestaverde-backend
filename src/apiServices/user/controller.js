@@ -8,14 +8,10 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const userDao = {
                 name: body.name,
-                email: body.email
+                email: body.email,
+                username: body.username,
+                password: body.password
             }
-            const authData = {
-                userId: '640b7901e78f4954c8a0c6c8',
-                username: 'eduards',
-                password: '1234'
-            }
-            auth.insertAuth(authData);
             resolve(dao.createUser(userDao));
         });
     }, 

@@ -24,6 +24,12 @@ const schemaProduct = new Schema({
     },
     photo: {
         type: String,
+    },
+    coin: {
+        type: String,
+    },
+    unit: {
+        type: String,
     }
 
 });
