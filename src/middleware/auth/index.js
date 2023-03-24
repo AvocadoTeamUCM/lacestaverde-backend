@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const config = require('./../config/config');
-const error = require('./../services/utils/error');
+const config = require('../../config/config');
+const error = require('../../services/utils/error');
 
 const secret = config.secret;
 

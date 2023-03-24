@@ -16,7 +16,9 @@ const mySchema = new Schema ({
         type: String,
         require: true
     },
-
+    file: {
+        type: String
+    },
     userId: {
         type: Schema.ObjectId,
         ref: 'User',

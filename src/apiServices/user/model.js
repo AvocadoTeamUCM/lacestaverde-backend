@@ -9,8 +9,12 @@ const mySchema = new mongoose.Schema ({
     email: {
         type: String,
         require: true,
-        unique: true
+        unique: [true, "The email already exist"]
     },
+
+    file: {
+        type: String
+    }
 
 })
 

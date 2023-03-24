@@ -1,11 +1,11 @@
 
 const single = (resource) => ({
-    id: resource.id,
+    id: resource._id,
     name: resource.name,
+    address: resource.address,
     description: resource.description,
-    User: resource.userId.name,
-    address: resource.address    
-});
+    user: resource.userId.name
+})
 
 const multiple = (resources) => resources.map((resource) => single(resource));
 

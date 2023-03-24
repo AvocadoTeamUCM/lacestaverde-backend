@@ -3,32 +3,44 @@ const dao = require('./dao');
 const auth = require('./../auth/controller');
 
 module.exports = {
+
+    async upload(file, userId) {
+        return await dao.upload(file, userId);
+    },
+
+    async getFile(filename) {
+        return dao.getFile(filename);
+    },
     
-    async createUser(body) {
+    async createUser(req) {
         return new Promise((resolve, reject) => {
             const userDao = {
-                name: body.name,
-                email: body.email,
-                username: body.username,
-                password: body.password
+                name: req.body.name,
+                email: req.body.email,
+                username: req.body.username,
+                password: req.body.password
             }
-            resolve(dao.createUser(userDao));
+            const userId = dao.createUser(userDao);
+            if(req.file) {
+                resolve(dao.upload(req.file, userId));
+
+            }
+            resolve();
         });
     }, 
 
     async getUserById(userId) {
-        return new Promise((resolve, reject) => {
-            if(userId == '' || userId == null) {
-                reject('Invalid userId');
-                return false
-            }
-            resolve(dao.getUser(userId));
-        })
+        const userDao = await dao.getUser(userId);
+
+        const userDto = dto.single(userDao);
+
+        return userDto;
     },
 
     async getUsers(){
-        return new Promise((resolve, rejec) => {
-            resolve(dao.getUsers());
-        })
+        const userDao = await dao.getUsers();
+        const userDto = dto.multiple(userDao);
+
+        return userDto;
     }
 }

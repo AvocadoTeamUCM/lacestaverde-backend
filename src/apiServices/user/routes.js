@@ -1,21 +1,57 @@
 const express = require('@awaitjs/express');
 const controller = require('./controller');
+const multer = require('multer');
+const path = require("path");
 const { check, validationResult } = require('express-validator');
+const response = require('./../../services/utils/response');
+const { USER_CREATED, INTERNAL_ERROR } = require('../../constants/Constants');
 
 const router = express.Router();
 
-router.postAsync('/',
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads/users')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = "avatar" + '-' + Date.now()  
+      cb(null, uniqueSuffix + '-' + file.originalname  )
+    }
+})
+const upload = multer({ storage})
+
+router.post('/upload-avatar/:userId',  upload.single('avatar'),(req, res) => {
+    controller.upload(req.file, req.params.userId)
+    .then((item) => {
+        response.success(req, res, 201)
+    })
+    .catch((err) => {
+        response.success(req, res)
+    })
+});
+
+router.getAsync('/getFile/:filename', (req, res ) => {
+    const file = req.params.filename;
+    controller.getFile(file)
+    .then((item)=> {
+        return res.sendFile(path.resolve(item));
+    }).catch(err=> {
+        response.error(req, res)
+    })
+   
+});
+
+router.postAsync('/', upload.single('avatar'),
     check("name", "The name is required").notEmpty(),
     check("email", "The email is required").isEmail(),
     (req, res)=> {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
-            controller.createUser(req.body)
+            controller.createUser(req)
                 .then((user)=> {
-                    res.status(201).send(user);
+                   response.success(req, res, USER_CREATED, 201);
                 })
                 .catch((err)=> {
-                    res.status(500).send(err);
+                    response.error(req, res, INTERNAL_ERROR)
                 })
         }else {
             res.status(500).send(errors.mapped());
@@ -40,6 +76,7 @@ router.getAsync('/', (req, res)=> {
     }).catch((err)=>{
         res.status(500).send('Internal Error')
     })
-})
+});
+
 
 module.exports = router;

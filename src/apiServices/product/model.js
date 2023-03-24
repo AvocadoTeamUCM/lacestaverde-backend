@@ -20,16 +20,20 @@ const schemaProduct = new Schema({
     
     categoryId: {
         type: Schema.ObjectId,
-        ref: 'Category'
+        ref: 'Category',
+        required: true
     },
-    photo: {
+    product_img: {
         type: String,
+        required: false
     },
     coin: {
         type: String,
+        required: true
     },
     unit: {
         type: String,
+        required: true
     }
 
 });

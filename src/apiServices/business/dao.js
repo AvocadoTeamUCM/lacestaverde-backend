@@ -1,21 +1,33 @@
 const Model = require('./model');
+const uploadImage = require('./../../microServices/uploadImage');
 
 module.exports = {
     async createBusiness(businessDao){
         const business = new Model(businessDao);
         business.save();
+        return business._id;
     },
 
     async getBusinessById(businessId) {
 
-        // const business = await Model.find({
-        //     _id: businessId
-        // })
-        // return business;
+        return new Promise((resolve, reject) => {
+            Model.findOne({_id: businessId})
+                .populate('userId')
+                .exec((error, business) => {
+                    if(error) {
+                        reject(error);
+                        return false;
+                    }
+                    resolve(business);
+                });
+       });
+    },
+
+    async getBusinessByUserId(userId) {
 
         return new Promise((resolve, reject) => {
-            Model.find({_id: businessId})
-                .populate('userId')
+            Model.find({'userId': userId}, {__v: false}).sort({date: -1})
+                .populate('userId', "-email -__v -file")
                 .exec((error, business) => {
                     if(error) {
                         reject(error);
@@ -27,12 +39,9 @@ module.exports = {
     },
 
     async getBusiness() {
-        // const business = await Model.find()
-        // return business;
-
         return new Promise((resolve, reject) => {
-            Model.find({}).sort({date: -1})
-                .populate('userId')
+            Model.find({}, {__v: false}).sort({date: -1})
+                .populate('userId', "-email -__v -file")
                 .exec((error, business) => {
                     if(error) {
                         reject(error);
@@ -41,5 +50,13 @@ module.exports = {
                     resolve(business);
                 });
        });
+    },
+
+    async upload (file, businessId) {
+        return uploadImage.upload(file, Model, businessId)
+    },
+    
+    async getFile(filename){
+        return uploadImage.getFile(filename, 'business')
     }
 }

@@ -3,31 +3,43 @@ const dao = require('./dao');
 
 module.exports = {
     
-    async createProduct(body) {
+    async createProduct(req) {
         return new Promise((resolve, reject) => {
             const productDao = {
-                name: body.name,
-                price: body.price,
-                coin: body.coin,
-                unit: body.unit,
-                categoryId: body.categoryId,
-                businessId: body.businessId,
+                name: req.body.name,
+                price: req.body.price,
+                coin: req.body.coin,
+                unit: req.body.unit,
+                categoryId: req.body.categoryId,
+                businessId: req.body.businessId,
             }
-            resolve(dao.createProduct(productDao));
+            const productId = dao.createProduct(productDao)
+            if (req.file){
+                resolve(dao.upload(req.file, productId))
+            }
+            resolve();
         });
     }, 
 
     async getProductById(productId) {
         const productDao = await dao.getProductById(productId);
-        const productDto = dto.multiple(productDao);
+        const productDto = dto.single(productDao);
 
-        return productDto;
+        return productDao;
     },
 
     async getProduct(){
         const productDao = await dao.getProduct();
         const productDto = dto.multiple(productDao);
 
-        return productDto;
+        return productDao;
+    },
+
+    async upload(file, productId) {
+        return await dao.upload(file, productId);
+    },
+
+    async getFile(filename) {
+        return dao.getFile(filename);
     }
 }

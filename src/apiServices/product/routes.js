@@ -1,10 +1,47 @@
 const express = require('@awaitjs/express');
 const controller = require('./controller');
+const response = require('./../../services/utils/response')
+const { PRODUCT_CREATED, INTERNAL_ERROR} = require('./../../constants/Constants')
 const { check, validationResult } = require('express-validator');
-
+const multer = require('multer');
+const path = require("path");
 const router = express.Router();
 
-router.postAsync('/',
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads/products')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = "product" + '-' + Date.now()  
+      cb(null, uniqueSuffix + '-' + file.originalname  )
+    }
+})
+
+  const upload = multer({ storage})
+  
+router.post('/upload-image/:productId',  upload.single('file'),(req, res) => {
+    controller.upload(req.file, req.params.productId)
+    .then((item) => {
+        response.success(req, res, 201)
+    })
+    .catch((err) => {
+        res.status(500).send(err)
+    })
+});
+
+router.getAsync('/getFile/:filename', (req, res ) => {
+    const file = req.params.filename;
+    controller.getFile(file)
+    .then((item)=> {
+        console.log(item)
+        return res.sendFile(path.resolve(item));
+    }).catch(err=> {
+        response.error(req, res)
+    })
+   
+})
+
+router.postAsync('/', upload.single('file'),
     check("name", "The name is required").notEmpty(),
     check("price", "The name is required").notEmpty(),
     check("businessId", "The name is required").notEmpty(),
@@ -12,12 +49,12 @@ router.postAsync('/',
     (req, res)=> {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
-            controller.createProduct(req.body)
+            controller.createProduct(req)
                 .then((product)=> {
-                    res.status(201).send('The product has been created successfully');
+                    response.success(req, res, PRODUCT_CREATED, 201);
                 })
                 .catch((err)=> {
-                    res.status(500).send(err);
+                    response.error(req, res, INTERNAL_ERROR)
                 })
         }else {
             res.status(500).send(errors.mapped());
@@ -29,7 +66,8 @@ router.getAsync('/:id', (req, res)=> {
     const productId = req.params.id;
     controller.getProductById(productId)
         .then((product) => {
-            res.status(200).json(product);
+           res.status(200).json(product);
+        //    response.success(req, res, product, 200)
         }).catch((err) => {
             res.status(500).send('Internal Error');
         })
@@ -42,6 +80,8 @@ router.getAsync('/', (req, res)=> {
     }).catch((err)=>{
         res.status(500).send('Internal Error')
     })
-})
+});
+
+
 
 module.exports = router;
