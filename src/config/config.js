@@ -9,8 +9,8 @@ const config = {
     dbConfig: {
         dbUrl: process.env.DB_URL
     },
-    jwt: {
-        secret: process.env.JWT_SECRET || 'cestaSecret!',
+    jwtSecret: {
+        secret: process.env.JWT_SECRET,
     },
 }
 

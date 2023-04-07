@@ -11,8 +11,8 @@ module.exports = {
     async getBusinessById(businessId) {
 
         return new Promise((resolve, reject) => {
-            Model.findOne({_id: businessId})
-                .populate('userId')
+            Model.findOne({_id: businessId},{__v: false})
+                .populate('userId',"-email -__v -file")
                 .exec((error, business) => {
                     if(error) {
                         reject(error);
@@ -53,7 +53,7 @@ module.exports = {
     },
 
     async upload (file, businessId) {
-        return uploadImage.upload(file, Model, businessId)
+        return uploadImage.upload(file, businessId,Model)
     },
     
     async getFile(filename){

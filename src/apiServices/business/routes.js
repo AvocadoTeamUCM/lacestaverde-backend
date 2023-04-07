@@ -33,7 +33,7 @@ router.getAsync('/getFile/:filename', (req, res ) => {
     const file = req.params.filename;
     controller.getFile(file)
     .then((item)=> {
-        return res.sendFile(path.resolve(item));
+        return res.status(200).sendFile(path.resolve(item));
     }).catch(err=> {
         response.error(req, res)
     })
@@ -45,7 +45,7 @@ router.postAsync('/', upload.single('file'),
     check("description", "The name is required").notEmpty(),
     check("address", "The name is required").notEmpty(),
     check("userId", "The name is required").notEmpty(),
-    (req, res)=> {
+    (req, res,next)=> {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
             controller.createBusiness(req)
@@ -61,7 +61,7 @@ router.postAsync('/', upload.single('file'),
     }
 );
 
-router.getAsync('/', (req, res)=> {
+router.getAsync('/', (req, res,next)=> {
     controller.getBusiness()
     .then((business) =>{
         

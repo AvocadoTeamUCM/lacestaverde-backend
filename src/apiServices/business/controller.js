@@ -24,7 +24,7 @@ module.exports = {
         const businessDao = await dao.getBusinessById(businessId);
         const businessDto = dto.single(businessDao);
 
-        return businessDto;
+        return businessDao;
     },
     async getBusinessByUserId(userId) {
         const businessDao = await dao.getBusinessByUserId(userId);

@@ -8,12 +8,10 @@ const mySchema = new Schema({
         require: true
     },
     role: {
-        type: String,
-        require: true
+        type: String
     },
     dni:{
-        type: String,
-        require: true
+        type: String
     },
     phoneNumber:{
         type: String

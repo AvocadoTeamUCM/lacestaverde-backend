@@ -2,12 +2,10 @@ const express = require('@awaitjs/express');
 const controller = require('./controller');
 const { check, validationResult } = require('express-validator');
 
-
 const router = express.Router();
 
 router.postAsync('/', check("name", "The name is required").notEmpty(),
     (req, res)=>{
-        console.log(req.body.name)
         const errors = validationResult(req);
         const categoryName = req.body.name;
         if(errors.isEmpty()) {

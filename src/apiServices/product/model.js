@@ -23,9 +23,12 @@ const schemaProduct = new Schema({
         ref: 'Category',
         required: true
     },
-    product_img: {
+    file: {
         type: String,
         required: false
+    },
+    description: {
+        type: String
     },
     coin: {
         type: String,

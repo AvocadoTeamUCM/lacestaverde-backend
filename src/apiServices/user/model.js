@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+mongoose.set('strictQuery', false);
 const mySchema = new mongoose.Schema ({
     name: {
         type: String,
@@ -12,8 +12,17 @@ const mySchema = new mongoose.Schema ({
         unique: [true, "The email already exist"]
     },
 
+    role: {
+        type: String,
+        default: 'COMPRADOR'
+    },
+
     file: {
         type: String
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
     }
 
 })

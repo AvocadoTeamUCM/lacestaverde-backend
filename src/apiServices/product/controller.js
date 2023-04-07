@@ -10,6 +10,7 @@ module.exports = {
                 price: req.body.price,
                 coin: req.body.coin,
                 unit: req.body.unit,
+                description: req.body.description,
                 categoryId: req.body.categoryId,
                 businessId: req.body.businessId,
             }

@@ -16,7 +16,7 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             Model.findOne({_id: productId.toString()},{__v: false})
-                .populate('businessId', "-userId -__v")
+                .populate('businessId', "-__v")
                 .populate('categoryId', "-__v")
                 .exec((error, product) => {
                     if(error) {
@@ -34,7 +34,7 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             Model.find({},{__v: false}).sort({date: 1})
-                .populate('businessId', "-userId -__v")
+                .populate('businessId', "-__v")
                 .populate('categoryId', "-__v")
                 .exec((error, product) => {
                     if(error) {
@@ -65,7 +65,7 @@ module.exports = {
     // },
 
     async upload (file, productId) {
-        return uploadImage.upload(file, Model, productId)
+        return uploadImage.upload(file, productId, Model)
     },
 
     async getFile(filename){

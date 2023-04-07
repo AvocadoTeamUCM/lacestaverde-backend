@@ -20,12 +20,16 @@ module.exports = {
                 username: req.body.username,
                 password: req.body.password
             }
-            const userId = dao.createUser(userDao);
             if(req.file) {
-                resolve(dao.upload(req.file, userId));
-
+                userDao.avatar = req.file
             }
-            resolve();
+            console.log(userDao)
+            // const userId = dao.createUser(userDao);
+            // if(req.file) {
+            //     resolve(dao.upload(req.file, userId));
+
+            // }
+            resolve(dao.createUser(userDao));
         });
     }, 
 

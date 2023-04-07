@@ -12,8 +12,13 @@ module.exports = {
         }
 
         if(data.password) {
-            authData.password = await bcrypt.hash(data.password, 5)
+            authData.password = await bcrypt.hash(data.password, 10, )
         }
+       
         return dao.insertAuth(authData);
+    },
+
+    async login(userData) {
+        return dao.login(userData)
     }
 }
