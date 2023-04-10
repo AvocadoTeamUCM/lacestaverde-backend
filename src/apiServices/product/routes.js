@@ -33,7 +33,6 @@ router.getAsync('/getFile/:filename', (req, res ) => {
     const file = req.params.filename;
     controller.getFile(file)
     .then((item)=> {
-        console.log(item)
         return res.sendFile(path.resolve(item));
     }).catch(err=> {
         response.error(req, res)
@@ -62,6 +61,27 @@ router.postAsync('/', upload.single('file'),
     }
 );
 
+router.getAsync('/', (req, res)=> {
+    controller.getProduct()
+    .then((products) =>{
+        res.status(200).json(products);
+    }).catch((err)=>{
+        res.status(500).send('Internal Error')
+    })
+});
+
+router.postAsync('/nutritionalInfo', (req, res) =>{
+    // const product = req.query.product;
+    const product = req.body.productName;
+    controller.getNutritionalInfoProduct(product)
+    .then((info)=>{
+        res.status(200).send(info)
+    }).catch((err)=>{
+        res.status(500).send(INTERNAL_ERROR)
+    })
+});
+
+
 router.getAsync('/:id', (req, res)=> {
     const productId = req.params.id;
     controller.getProductById(productId)
@@ -71,15 +91,6 @@ router.getAsync('/:id', (req, res)=> {
         }).catch((err) => {
             res.status(500).send('Internal Error');
         })
-});
-
-router.getAsync('/', (req, res)=> {
-    controller.getProduct()
-    .then((products) =>{
-        res.status(200).json(products);
-    }).catch((err)=>{
-        res.status(500).send('Internal Error')
-    })
 });
 
 

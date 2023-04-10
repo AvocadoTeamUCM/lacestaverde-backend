@@ -7,6 +7,6 @@ module.exports = {
     },
     
     async getProfileByUserId(userId) {
-        return dao.getProfileByUserId(userId);
+        return dao.getProfile(userId);
     }
 }

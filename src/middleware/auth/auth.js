@@ -7,7 +7,6 @@ const secret = libjwt.SECRET;
 
 //Authentication Middleware
 exports.auth = (req, res, next) => {
-    console.log(req.headers.authorization)
     //Comprobamos si llega la cabecra de authentication
     if(!req.headers.authorization) {
         return {

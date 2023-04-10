@@ -2,8 +2,12 @@ const Model = require('./model');
 const response = require('./../../services/utils/response');
 const {NOT_IMAGE, IMAGE_UPLOAD} = require('./../../constants/Constants');
 const uploadImage = require('./../../microServices/uploadImage');
-const fs = require('fs')
+const fs = require('fs');
+const request = require('request');
+const translator = require('./../../services/utils/translator')
 
+const FatSecret = require('fatsecret');
+const fatAPI = new FatSecret("0fb12c96c76a49d5902c9dcb4af307bb", "b8057ff7929946c9b4a367da05273ccd");
 
 module.exports = {
     async createProduct(productDao){
@@ -29,9 +33,7 @@ module.exports = {
     },
 
     async getProduct() {
-        // const product = await Model.find()
-        // return product;
-
+        const nutritionInfo = await this.getNutritionalInfoProduct("arroz");
         return new Promise((resolve, reject) => {
             Model.find({},{__v: false}).sort({date: 1})
                 .populate('businessId', "-__v")
@@ -46,29 +48,28 @@ module.exports = {
        });
     },
 
-    // async upload (file, productId) {
-    //     const fileName = file.originalname
-    //     const extension = fileName.split("\.")[1]
-    //     if(extension !== 'jpg' && extension !== 'png' && extension !== 'png' && extension !== 'jpeg') {
-    //         const filePath = file.path;
-    //         const deleteFile = fs.unlinkSync(filePath);
-    //         return NOT_IMAGE
-    //     }
-
-    //     Model.findOneAndUpdate({_id: productId}, {product_img: file.filename},{new: true}, (error, productUpdate) => {
-    //         if (error || !productUpdate) {
-    //             return NOT_IMAGE;
-    //         }
-    
-    //         return productUpdate;
-    //     });
-    // },
-
     async upload (file, productId) {
         return uploadImage.upload(file, productId, Model)
     },
 
     async getFile(filename){
         return uploadImage.getFile(filename, 'products')
+    },
+
+    async getNutritionalInfoProduct(productName) {
+        const query = '100g '+translator[productName.toLowerCase()];
+       return new Promise((resolve, reject) => {
+        request.get({
+            url: 'https://api.api-ninjas.com/v1/nutrition?query=' + query,
+            headers: {
+                'X-Api-Key': 'fP0afWLmdTc9sR52l/Bucg==IdEvQUhE7zBJ9ZbC'
+            },
+        }, 
+        function(error, response, body) {
+            if(error) return console.error('Request failed:', error);
+            else if(response.statusCode != 200) return console.error('Error:', response.statusCode, body.toString('utf8'));
+            resolve(JSON.parse(body))
+        });
+       })
     }
 }

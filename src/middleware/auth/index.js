@@ -15,7 +15,6 @@ function verify(token) {
 const check = {
     own: function(req, owner) {
         const decoded = decodeHeader(req)
-        console.log(decoded)
         if(decoded.id !== owner) {
             throw error('Do not authorized todo this', 401);
         }

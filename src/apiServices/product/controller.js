@@ -36,6 +36,13 @@ module.exports = {
         return productDao;
     },
 
+    async getNutritionalInfoProduct(productName) {
+        const nutritionInfoDao = await dao.getNutritionalInfoProduct(productName)
+        const nutritionInfoDto = dto.nutritionDto(nutritionInfoDao[0])
+
+        return nutritionInfoDto
+    },
+
     async upload(file, productId) {
         return await dao.upload(file, productId);
     },

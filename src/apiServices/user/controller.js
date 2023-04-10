@@ -23,12 +23,6 @@ module.exports = {
             if(req.file) {
                 userDao.avatar = req.file
             }
-            console.log(userDao)
-            // const userId = dao.createUser(userDao);
-            // if(req.file) {
-            //     resolve(dao.upload(req.file, userId));
-
-            // }
             resolve(dao.createUser(userDao));
         });
     }, 

@@ -20,7 +20,6 @@ module.exports = {
             if (error || !documentUpdate) {
                 return NOT_IMAGE;
             }
-            console.log('Document Updated', documentUpdate)
             return {
                 status: 200,
                 body: documentUpdate
