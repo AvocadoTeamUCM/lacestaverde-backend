@@ -31,7 +31,7 @@ module.exports = {
 
     async getProduct(){
         const productDao = await dao.getProduct();
-        const productDto = dto.multiple(productDao);
+        //const productDto = dto.multiple(productDao);
 
         return productDao;
     },

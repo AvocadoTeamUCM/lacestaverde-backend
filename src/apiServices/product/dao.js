@@ -6,9 +6,6 @@ const fs = require('fs');
 const request = require('request');
 const translator = require('./../../services/utils/translator')
 
-const FatSecret = require('fatsecret');
-const fatAPI = new FatSecret("0fb12c96c76a49d5902c9dcb4af307bb", "b8057ff7929946c9b4a367da05273ccd");
-
 module.exports = {
     async createProduct(productDao){
         const product = new Model(productDao);
@@ -33,7 +30,6 @@ module.exports = {
     },
 
     async getProduct() {
-        const nutritionInfo = await this.getNutritionalInfoProduct("arroz");
         return new Promise((resolve, reject) => {
             Model.find({},{__v: false}).sort({date: 1})
                 .populate('businessId', "-__v")
@@ -57,7 +53,7 @@ module.exports = {
     },
 
     async getNutritionalInfoProduct(productName) {
-        const query = '100g '+translator[productName.toLowerCase()];
+        const query = translator[productName.toLowerCase()];
        return new Promise((resolve, reject) => {
         request.get({
             url: 'https://api.api-ninjas.com/v1/nutrition?query=' + query,

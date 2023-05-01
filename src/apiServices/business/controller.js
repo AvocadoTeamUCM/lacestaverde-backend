@@ -9,10 +9,11 @@ module.exports = {
                 name: req.body.name,
                 description: req.body.description,
                 address: req.body.address,
+                location: [
+                    req.body.latitud, req.body.longitud],
                 userId: req.body.userId,
             }
-            const businessId = dao.createBusiness(businessDao)
-
+           const businessId = dao.createBusiness(businessDao)
             if(req.file){
                 dao.upload(req.file, businessId)
             }

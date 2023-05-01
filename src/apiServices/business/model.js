@@ -16,6 +16,9 @@ const mySchema = new Schema ({
         type: String,
         require: true
     },
+    location: {
+        type: Object,
+    },
     file: {
         type: String
     },

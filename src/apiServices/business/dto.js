@@ -4,7 +4,7 @@ const single = (resource) => ({
     name: resource.name,
     address: resource.address,
     description: resource.description,
-    user: resource.userId.name
+    user: resource.userId.name,
 })
 
 const multiple = (resources) => resources.map((resource) => single(resource));

@@ -1,6 +1,6 @@
 const Auth = require("./model");
 const bcrypt = require('bcrypt');
-const { AUTH_DATA_REQUIRED, USERNAME_NOT_FOUND, LOGIN_SUCCESS} = require('../../constants/Constants');
+const { AUTH_DATA_REQUIRED, USERNAME_NOT_FOUND, LOGIN_SUCCESS, LOGIN_FAILED} = require('../../constants/Constants');
 const { getUserById } = require("./../user/controller");
 
 const jwt = require('./../../services/logging/jwt');
@@ -26,7 +26,7 @@ module.exports = {
         if(!user) {
             return {
                 status: 400,
-                body: AUTH_DATA_REQUIRED
+                body: { 'Status':LOGIN_FAILED, 'Message':USERNAME_NOT_FOUND}
             } 
         }
 

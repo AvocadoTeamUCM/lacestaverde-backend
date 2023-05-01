@@ -64,7 +64,7 @@ router.postAsync('/', upload.single('file'),
 router.getAsync('/', (req, res,next)=> {
     controller.getBusiness()
     .then((business) =>{
-        
+        console.log(business)
         res.status(200).json(business);
     }).catch((err)=>{
         res.status(500).send('Internal Error')

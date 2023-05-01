@@ -9,6 +9,7 @@ const INVALID_TOKEN = "Invalid token"
 const INTERNAL_ERROR = 'Internal Error'
 const USER_EXISTS = "The email already exists"
 const LOGIN_SUCCESS = "Correct identification"
+const LOGIN_FAILED = "Incorrect data authentication"
 const IMAGE_UPLOAD = 'Image uploaded successfully'
 const IMAGE_NOT_FOUND = 'The image does not exist'
 const USERNAME_EXISTS = "The username already exists"
@@ -24,6 +25,7 @@ module.exports ={
     NOT_IMAGE,
     USER_EXISTS,
     IMAGE_UPLOAD,
+    LOGIN_FAILED,
     USER_CREATED,
     EXPIRED_TOKEN,
     LOGIN_SUCCESS,
