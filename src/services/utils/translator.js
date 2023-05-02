@@ -14,7 +14,8 @@ const translator = {
     'frijoles': 'beans',
     'pollo': 'chicken',
     'zanahoria': 'carrot',
-    'ajo': 'garlic'
+    'ajo': 'garlic',
+    'mango': 'mango'
 }
 
 module.exports = translator 
