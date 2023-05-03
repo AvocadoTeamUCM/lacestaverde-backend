@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     }
 })
 
-  const upload = multer({ storage})
+const upload = multer({ storage})
   
 router.post('/upload-image/:productId',  upload.single('file'),(req, res) => {
     controller.upload(req.file, req.params.productId)
@@ -71,7 +71,6 @@ router.getAsync('/', (req, res)=> {
 });
 
 router.postAsync('/nutritionalInfo', (req, res) =>{
-    // const product = req.query.product;
     const product = req.body.productName;
     controller.getNutritionalInfoProduct(product)
     .then((info)=>{
@@ -80,7 +79,6 @@ router.postAsync('/nutritionalInfo', (req, res) =>{
         res.status(500).send(INTERNAL_ERROR)
     })
 });
-
 
 router.getAsync('/:id', (req, res)=> {
     const productId = req.params.id;
@@ -92,7 +90,5 @@ router.getAsync('/:id', (req, res)=> {
             res.status(500).send('Internal Error');
         })
 });
-
-
 
 module.exports = router;

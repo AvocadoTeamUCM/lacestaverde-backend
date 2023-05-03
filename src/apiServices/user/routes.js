@@ -66,7 +66,8 @@ router.getAsync('/:id', (req, res)=> {
     const userId = req.params.id;
     controller.getUserById(userId)
         .then((user) => {
-            response.success(req, res, user, 200);
+            // response.success(req, res, user, 200);
+            res.status(200).send(user)
         }).catch((err) => {
             response.error(req, res, INTERNAL_ERROR);
         })

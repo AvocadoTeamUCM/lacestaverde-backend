@@ -2,7 +2,7 @@ const single = (resource) => ({
     id: resource._id,
     name: resource.name, 
     email: resource.email,
-    Alta: resource.created_at,
+    alta: resource.created_at,
     file: resource.file
 });
 
