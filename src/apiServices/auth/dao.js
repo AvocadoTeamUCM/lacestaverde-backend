@@ -1,14 +1,14 @@
 const Auth = require("./model");
 const bcrypt = require('bcrypt');
 const { AUTH_DATA_REQUIRED, USERNAME_NOT_FOUND, LOGIN_SUCCESS, LOGIN_FAILED} = require('../../constants/Constants');
-const { getUserById } = require("./../user/controller");
+// const userController = require("./../user/controller");
 
 const jwt = require('./../../services/logging/jwt');
 
 
 module.exports = {
-    async insertAuth(authDao) {
-        const authData = new Model(authDao);
+    async insert(authDao) {
+        const authData = new Auth(authDao);
         authData.save();
     },
 
@@ -43,7 +43,6 @@ module.exports = {
         const token = jwt.createToken(user);
 
         //4- Devolver datos del usuario
-
         return {
             status: 200,
             body: {
@@ -64,7 +63,7 @@ module.exports = {
     async usernameExists(username) {
         const auth = await Auth.findOne({username: username},{__v:false, _id:false})
         if(auth !== null){
-            const user = await getUserById(auth.userId)
+            const user = await userController.getUserById(auth.userId)
             return {
                 ...user,
                 username: username,

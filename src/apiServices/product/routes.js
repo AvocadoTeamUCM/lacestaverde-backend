@@ -22,6 +22,7 @@ const upload = multer({ storage})
 router.post('/upload-image/:productId',  upload.single('file'),(req, res) => {
     controller.upload(req.file, req.params.productId)
     .then((item) => {
+
         response.success(req, res, 201)
     })
     .catch((err) => {

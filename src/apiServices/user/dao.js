@@ -1,6 +1,6 @@
 const Model = require('./model');
-const ModelAuth = require('./../auth/model')
-const auth = require('./../auth/controller');
+const ModelAuth = require('./../auth/model');
+const authController = require('./../auth/controller')
 const uploadImage = require('./../../microServices/uploadImage');
 
 const {USER_CREATED, USERNAME_EXISTS, USER_EXISTS, INTERNAL_ERROR} = require('./../../constants/Constants')
@@ -23,20 +23,20 @@ module.exports = {
             }
         }
         const newUser = new Model(userDao);
-        const newUserId = newUser._id.toString()
         await newUser.save((error, user)=> {
             if(error) {
                 return INTERNAL_ERROR
             }
             if(userDao.avatar){
-                resolve(dao.upload(userDao.avatar, newUserId))
+                dao.upload(userDao.avatar, user._id.toString());
             }
+           
             const authUser = {
-                userId: newUserId,
+                userId: user._id.toString(),
                 username: userDao.username,
                 password: userDao.password
             }
-            auth.insertAuth(authUser)
+            authController.insertAuth(authUser);
         });
        
         return USER_CREATED;

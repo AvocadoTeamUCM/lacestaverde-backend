@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const dao = require('./dao');
+const daddo = require('./dao');
 
 module.exports = {
     async insertAuth(data) {
@@ -14,11 +14,10 @@ module.exports = {
         if(data.password) {
             authData.password = await bcrypt.hash(data.password, 10, )
         }
-       
-        return dao.insertAuth(authData);
+       return daddo.insert(authData);
     },
 
     async login(userData) {
-        return dao.login(userData)
+        return await dao.login(userData)
     }
 }
